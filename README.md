@@ -14,7 +14,7 @@ Goal: Upload historical stock data → clean and process it → create
 features → train the model → evaluate it → predict the next trading
 day's closing price.
 
-🚀 Project Evolution
+-> Project Evolution
 
 Version 1 --- Original ML Workflow
 
@@ -62,7 +62,7 @@ Next-Day Prediction
 The main idea is to make the workflow reusable for different stock
 datasets instead of rebuilding the pipeline from scratch each time.
 
-🎯 What the Project Does
+-> What the Project Does
 
 The system uses historical OHLCV stock data to create time-series
 features and forecast the next closing price.
@@ -84,7 +84,7 @@ Close
 Adj Close
 Volume
 
-🧹 Data Cleaning
+-> Data Cleaning
 
 The project checks and prepares the stock data before modelling.
 
@@ -108,7 +108,7 @@ Chronological ordering
 
 The cleaned dataset is then passed to feature engineering.
 
-🔎 Exploratory Data Analysis
+-> Exploratory Data Analysis
 
 The EDA stage was used to understand the stock data before modelling.
 
@@ -134,7 +134,7 @@ Correlation analysis
 
 Correlation heatmap
 
-⚙️ Feature Engineering
+-> Feature Engineering
 
 I created several features from historical price and volume information.
 
@@ -172,7 +172,7 @@ Calendar Feature
 
 Day_of_Week
 
-🤖 Models Tested
+-> Models Tested
 
 I experimented with several regression approaches.
 
@@ -200,7 +200,7 @@ Interestingly, Random Forest did not outperform Ridge in the current
 experiment. I kept the experiment because model comparison is an
 important part of the ML workflow.
 
-📊 Model Evaluation
+-> Model Evaluation
 
 The project uses:
 
@@ -213,7 +213,7 @@ R² Score
 For MAE and RMSE, lower values are better. For R², higher values are
 better.
 
-⏳ Time-Series Cross Validation
+-> Time-Series Cross Validation
 
 Because stock prices are time-dependent, I used:
 
@@ -238,7 +238,7 @@ average Time-Series CV MAE of approximately:
 
 These results are specific to this dataset and feature setup.
 
-🖥️ Automated Streamlit Application
+-> Automated Streamlit Application
 
 The final step was turning the manually executed workflow into an
 interactive application.
@@ -260,7 +260,7 @@ The intended user flow is:
 The goal is to make the ML workflow easier to reuse without requiring
 the user to manually run every stage.
 
-📁 Project Structure
+-> Project Structure
 
 business_forcast/
 │
@@ -287,7 +287,7 @@ business_forcast/
 ├── requirements.txt
 └── README.md
 
-🛠️ Technologies Used
+-> Technologies Used
 
 Python
 
@@ -305,7 +305,7 @@ Seaborn
 
 Streamlit
 
-▶️ How to Run
+-> How to Run??
 
 1. Clone the repository
 
@@ -332,7 +332,7 @@ The application will normally be available at:
 
 http://localhost:8501
 
-💡 What I Learned
+-> What I Learned??
 
 This project taught me that building an ML project is more than training
 a model.
@@ -371,7 +371,7 @@ Streamlit
 
 ML pipeline automation
 
-🔮 Future Improvements
+-> Future Improvements
 
 Some improvements I would like to explore:
 
@@ -393,7 +393,7 @@ Better prediction uncertainty information
 
 Deployment of the Streamlit application
 
-⚠️ Disclaimer
+-> Disclaimer!!!
 
 This project is for educational and machine-learning experimentation
 purposes.
@@ -402,7 +402,7 @@ Stock prices are influenced by many factors that are not represented in
 this model. The predictions should not be considered financial advice or
 a guarantee of future performance.
 
-👩‍💻 Project Journey
+-> Project Journey....
 
 This project started with a simple question:
 
