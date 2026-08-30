@@ -1,430 +1,417 @@
-Automated Stock Price Forecasting
-An end-to-end machine learning project that automates stock price prediction using multiple regression models with an interactive Streamlit dashboard.
+-> Automated Stock Price Forecaster
 
-📌 About the Project
-This project implements an automated pipeline for forecasting stock prices using historical data from Yahoo Finance. It combines data preprocessing, feature engineering, model training, and evaluation into a seamless workflow. The system supports multiple machine learning models and provides visual insights through an interactive web application.
+A Machine Learning project that started as a manual stock-price
+prediction workflow and was later converted into a reusable automated
+forecasting system.
 
-The project is designed to be modular, scalable, and easy to use for both beginners and experienced data scientists interested in financial time series forecasting.
+The original project was built step by step using HDFC Bank historical
+stock data. After understanding and testing each stage of the ML
+workflow, I converted the process into a Streamlit application so a user
+can upload a new stock dataset and run the forecasting pipeline without
+manually executing every step.
 
-🎯 Problem Statement
-Stock price prediction is a challenging task due to the volatile and non-linear nature of financial markets. Traditional methods often fail to capture complex patterns and relationships in historical data. There is a need for an automated, data-driven approach that can:
+Goal: Upload historical stock data → clean and process it → create
+features → train the model → evaluate it → predict the next trading
+day's closing price.
 
-Process large volumes of historical stock data efficiently
+🚀 Project Evolution
 
-Engineer relevant features for better prediction
+Version 1 --- Original ML Workflow
 
-Compare multiple ML models to find the best performer
+I first built the project manually:
 
-Provide an easy-to-use interface for non-technical users
+Data Collection
+      ↓
+Data Cleaning
+      ↓
+EDA
+      ↓
+Feature Engineering
+      ↓
+Train/Test Split
+      ↓
+Model Training
+      ↓
+Model Evaluation
+      ↓
+Time-Series Cross Validation
+      ↓
+Next-Day Prediction
 
-🎯 Objective
-Develop an automated pipeline for stock price forecasting
+The repository keeps this original implementation because it shows how I
+learned and developed the project step by step.
 
-Implement and compare multiple regression models (Ridge, Random Forest, etc.)
+Version 2 --- Automated ML System
 
-Engineer meaningful features from raw stock data
+I then converted the workflow into a Streamlit application:
 
-Evaluate model performance using appropriate metrics
+Upload Dataset
+      ↓
+Data Processing
+      ↓
+EDA
+      ↓
+Feature Engineering
+      ↓
+Model Training
+      ↓
+Evaluation
+      ↓
+Next-Day Prediction
 
-Deploy a user-friendly Streamlit application for real-time predictions
+The main idea is to make the workflow reusable for different stock
+datasets instead of rebuilding the pipeline from scratch each time.
 
-Provide visual analytics and insights for decision making
+🎯 What the Project Does
 
-📊 Dataset
-Source
-Data Source: Yahoo Finance (yfinance API)
+The system uses historical OHLCV stock data to create time-series
+features and forecast the next closing price.
 
-Ticker: Configurable (default: specific stock symbols)
+The target is created as:
 
-Time Period: Historical data (adjustable date range)
+df["Target"] = df["Close"].shift(-1)
 
-Data Fields
-Column	Description
-Date	Trading date
-Open	Opening price
-High	Highest price of the day
-Low	Lowest price of the day
-Close	Closing price (target variable)
-Adj Close	Adjusted closing price
-Volume	Trading volume
-Data Preprocessing
-Handling missing values
+Therefore, the model learns to predict the next trading day's closing
+price from information available in the historical data.
 
-Outlier detection and treatment
+Expected input columns
 
-Data normalization/standardization
+Date
+Open
+High
+Low
+Close
+Adj Close
+Volume
 
-Time series validation
+🧹 Data Cleaning
 
-🔧 Features Engineered
-Technical Indicators
-Moving Averages: SMA, EMA (7, 14, 30-day)
+The project checks and prepares the stock data before modelling.
 
-Volatility Metrics: Bollinger Bands, ATR
+Checks include:
 
-Momentum Indicators: RSI, MACD
+Date conversion
 
-Price Ratios: Open/Close, High/Low
+Chronological sorting
 
-Time-Based Features
-Day of week
+Missing values
 
-Month
+Duplicate rows
 
-Quarter
+Date range
 
-Year
+OHLC consistency
 
-Holiday indicators
+Negative volume
+
+Chronological ordering
+
+The cleaned dataset is then passed to feature engineering.
+
+🔎 Exploratory Data Analysis
+
+The EDA stage was used to understand the stock data before modelling.
+
+It includes:
+
+Closing price over time
+
+Open vs Close
+
+High vs Low
+
+Trading volume
+
+Closing-price distribution
+
+Closing-price boxplot
+
+Daily returns
+
+Return distribution
+
+Correlation analysis
+
+Correlation heatmap
+
+⚙️ Feature Engineering
+
+I created several features from historical price and volume information.
 
 Lag Features
-Previous day's closing price
 
-Price changes (1, 3, 7 days)
+Close_Lag1
+Close_Lag2
+Close_Lag3
+Close_Lag4
+Close_Lag5
 
-Volume changes
+Moving Averages
 
-Statistical Features
-Rolling mean, median, std
+MA_5
+MA_10
+MA_20
 
-Price momentum
+Returns and Volatility
 
-Volume momentum
+Daily_Return
+Volatility_5
+Volatility_10
 
-🤖 Machine Learning Models
-Implemented Models
-Model	Description	Use Case
-Ridge Regression	Linear model with L2 regularization	Baseline, interpretable predictions
-Random Forest	Ensemble of decision trees	Capturing non-linear relationships
-Linear Regression	Simple linear model	Quick baseline predictions
-Model Training Pipeline
-Data Splitting
+Price Features
 
-Training set: 80%
+Price_Range
+Open_Close_Diff
 
-Testing set: 20% (time-series split)
+Volume Features
 
-Cross-Validation
+Volume_MA_5
+Volume_Ratio
 
-Time-series cross-validation
+Calendar Feature
 
-K-fold (5-fold) cross-validation
+Day_of_Week
 
-Rolling window validation
+🤖 Models Tested
 
-Hyperparameter Tuning
+I experimented with several regression approaches.
 
-Grid Search
+Baseline
 
-Random Search
+The current closing price was used as a simple baseline.
 
-Cross-validated parameter optimization
+Linear Regression
 
-📈 Model Evaluation
-Performance Metrics
-Metric	Description
-RMSE	Root Mean Square Error
-MAE	Mean Absolute Error
-MAPE	Mean Absolute Percentage Error
-R² Score	Coefficient of Determination
-MSE	Mean Squared Error
-Evaluation Visualizations
-Actual vs Predicted plots
+Used as the first machine-learning regression model.
 
-Residual analysis
+Ridge Regression
 
-Feature importance charts
+Used to test a regularized linear approach.
 
-Learning curves
+Ridge + StandardScaler
 
-Error distribution histograms
+Ridge Regression was also tested after standardizing the features.
 
-🔄 Project Pipeline
-text
-┌─────────────────────────────────────┐
-│        Historical Data              │
-│    (Download from Yahoo Finance)    │
-└─────────────────────────────────────┘
-                 ↓
-┌─────────────────────────────────────┐
-│        Data Cleaning                │
-│   (Handle missing values, outliers) │
-└─────────────────────────────────────┘
-                 ↓
-┌─────────────────────────────────────┐
-│           EDA                       │
-│   (Exploratory Data Analysis)       │
-└─────────────────────────────────────┘
-                 ↓
-┌─────────────────────────────────────┐
-│      Feature Engineering            │
-│   (Technical indicators, lags)      │
-└─────────────────────────────────────┘
-                 ↓
-┌─────────────────────────────────────┐
-│   Time-Series Train/Test Split      │
-│      (80% Train, 20% Test)          │
-└─────────────────────────────────────┘
-                 ↓
-┌─────────────────────────────────────┐
-│        Model Training               │
-│   (Ridge, Random Forest, etc.)      │
-└─────────────────────────────────────┘
-                 ↓
-┌─────────────────────────────────────┐
-│       Cross Validation              │
-│   (Time-series CV, K-Fold)          │
-└─────────────────────────────────────┘
-                 ↓
-┌─────────────────────────────────────┐
-│       Model Comparison              │
-│   (Compare performance metrics)     │
-└─────────────────────────────────────┘
-                 ↓
-┌─────────────────────────────────────┐
-│          Best Model                 │
-│   (Select based on performance)     │
-└─────────────────────────────────────┘
-                 ↓
-┌─────────────────────────────────────┐
-│     Next-Day Price Forecast         │
-│   (Predict future stock price)      │
-└─────────────────────────────────────┘
-⚙️ Automated Pipeline
-Pipeline Components
-text
-┌─────────────────────────────────────────────┐
-│           DATA DOWNLOAD (yfinance)          │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│         DATA CLEANING & PREPROCESSING       │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│         EXPLORATORY DATA ANALYSIS           │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│          FEATURE ENGINEERING                 │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│          DATA SPLITTING                     │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│      MODEL TRAINING & VALIDATION            │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│         MODEL EVALUATION                    │
-└─────────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────────┐
-│      PREDICTION & VISUALIZATION             │
-└─────────────────────────────────────────────┘
-Automation Features
-Scheduled Execution: Run forecasts automatically
+Random Forest
 
-Error Handling: Robust error management
+Random Forest was tested as a non-linear tree-based model.
 
-Logging: Comprehensive logging system
+Interestingly, Random Forest did not outperform Ridge in the current
+experiment. I kept the experiment because model comparison is an
+important part of the ML workflow.
 
-Reporting: Auto-generated reports
+📊 Model Evaluation
 
-🖥️ Streamlit Application
-Features
-Interactive Dashboard
+The project uses:
 
-Stock selection dropdown
+MAE --- Mean Absolute Error
 
-Date range picker
+RMSE --- Root Mean Squared Error
 
-Model selection
+R² Score
 
-Visualizations
+For MAE and RMSE, lower values are better. For R², higher values are
+better.
 
-Price trends with predictions
+⏳ Time-Series Cross Validation
 
-Model comparison charts
+Because stock prices are time-dependent, I used:
 
-Feature importance plots
+TimeSeriesSplit(n_splits=5)
 
-Performance metrics display
+instead of randomly shuffling the observations.
 
-Data Download
+The Random Forest experiment produced:
 
-Export predictions as CSV
+Fold 1 MAE: 64.11
+Fold 2 MAE: 40.32
+Fold 3 MAE: 13.79
+Fold 4 MAE: 10.09
+Fold 5 MAE: 61.55
 
-Download charts as images
+Average MAE: 37.97
 
-Application Screens
-Home: Project overview and quick stats
+The current best result from my experiments was Ridge Regression with an
+average Time-Series CV MAE of approximately:
 
-Forecast: Prediction interface
+7.269
 
-Analysis: Detailed analytics
+These results are specific to this dataset and feature setup.
 
-Compare: Model comparison
+🖥️ Automated Streamlit Application
+
+The final step was turning the manually executed workflow into an
+interactive application.
+
+The intended user flow is:
+
+1. Upload historical stock CSV
+            ↓
+2. Process and clean data
+            ↓
+3. Create features
+            ↓
+4. Train forecasting model
+            ↓
+5. Evaluate the model
+            ↓
+6. Generate next-day prediction
+
+The goal is to make the ML workflow easier to reuse without requiring
+the user to manually run every stage.
 
 📁 Project Structure
-text
-automated-stock-price-forecasting/
-│
-├── business_forecast/              # Main project directory
-│   ├── .venv/                      # Virtual environment
-│   ├── data/                       # Raw and processed data
-│   ├── model/                      # Saved models
-│   ├── notebooks/                  # Jupyter notebooks
-│   ├── outputs/                    # Generated outputs
-│   ├── src/                        # Source code
-│   │   ├── data_loader.py
-│   │   ├── preprocessor.py
-│   │   └── utils.py
-│   └── requirements.txt
-│
-├── automated_stock_forecasterrrr/  # Streamlit app
-├── original_projecttttt/           # Original implementation
-├── code/                           # Additional scripts
-│   ├── clean_data.py
-│   ├── correlation.py
-│   ├── cross_validation.py
-│   ├── download_data.py
-│   ├── eda.py
-│   ├── evaluate_model.py
-│   ├── feature_engineering.py
-│   ├── random_forest_cv.py
-│   ├── Ridge_model.py
-│   ├── split_data.py
-│   ├── train_model.py
-│   └── master_final.py            # Main execution script
-│
-├── EDA_images/                     # EDA visualization outputs
-├── .gitignore                      # Git ignore file
-└── README.md                       # Project documentation
-🚀 How to Run
-Prerequisites
-Python 3.8+
 
-Git
+business_forcast/
+│
+├── data/
+│   ├── raw stock data
+│   ├── cleaned data
+│   ├── feature data
+│   └── train/test datasets
+│
+├── src/
+│   ├── original ML workflow
+│   └── automated_stock_forecasterrrr/
+│       └── automation_forcast_sp.py
+│
+├── model/
+│   └── model experiments
+│
+├── notebooks/
+│
+├── outputs/
+│   └── EDA visualizations
+│
+├── .gitignore
+├── requirements.txt
+└── README.md
 
-Virtual environment (optional but recommended)
+🛠️ Technologies Used
 
-Step 1: Clone Repository
-bash
-git clone https://github.com/yourusername/automated-stock-price-forecasting.git
-cd automated-stock-price-forecasting
-Step 2: Set Up Virtual Environment
-bash
-# Create virtual environment
+Python
+
+Pandas
+
+NumPy
+
+Scikit-learn
+
+yfinance
+
+Matplotlib
+
+Seaborn
+
+Streamlit
+
+▶️ How to Run
+
+1. Clone the repository
+
+git clone <your-github-repository-url>
+cd business_forcast
+
+2. Create a virtual environment
+
 python -m venv .venv
 
-# Activate it
-# Windows:
+3. Activate it on Windows
+
 .venv\Scripts\activate
-# Mac/Linux:
-source .venv/bin/activate
-Step 3: Install Dependencies
-bash
+
+4. Install dependencies
+
 pip install -r requirements.txt
-Step 4: Run the Main Pipeline
-bash
-python code/master_final.py
-Step 5: Launch Streamlit App
-bash
-streamlit run automated_stock_forecasterrrr/app.py
-Step 6: Individual Scripts
-bash
-# Download data
-python code/download_data.py
 
-# Run EDA
-python code/eda.py
+5. Run the Streamlit application
 
-# Train specific model
-python code/Ridge_model.py
-python code/random_forest_cv.py
-📊 Results
-Model Performance Comparison
-Model	RMSE	MAE	MAPE	R² Score
-Ridge Regression	0.0452	0.0321	1.23%	0.9234
-Random Forest	0.0387	0.0289	1.08%	0.9456
-Linear Regression	0.0513	0.0378	1.45%	0.8912
-Key Findings
-✅ Random Forest outperforms linear models
+python -m streamlit run "src\automated_stock_forecasterrrr\automation_forcast_sp.py"
 
-✅ Feature engineering significantly improves performance
+The application will normally be available at:
 
-✅ Technical indicators are most important features
+http://localhost:8501
 
-✅ Model maintains consistency across different stocks
+💡 What I Learned
 
-Visual Outputs
-📈 Actual vs Predicted plots
+This project taught me that building an ML project is more than training
+a model.
 
-📊 Feature importance charts
+The biggest learning was the transition from:
 
-📉 Residual distribution plots
+"I can build a prediction model."
 
-📋 Error metrics summary
+to:
+
+"I can build a reusable ML pipeline around that model."
+
+I worked with:
+
+Real-world financial time-series data
+
+Data cleaning
+
+Exploratory Data Analysis
+
+Feature engineering
+
+Regression models
+
+Regularization
+
+Feature scaling
+
+Time-series cross validation
+
+Model comparison
+
+Model evaluation
+
+Streamlit
+
+ML pipeline automation
 
 🔮 Future Improvements
-Short-term Enhancements
-□ Add LSTM/GRU deep learning models
-□ Implement real-time data streaming
-□ Add more technical indicators
-□ Improve feature selection algorithms
-Medium-term Goals
-□ Integration with multiple data sources
-□ Sentiment analysis from news/social media
-□ Portfolio optimization integration
-□ Risk management metrics
-Long-term Vision
-□ Deploy as web service/API
-□ Mobile application interface
-□ Multi-asset portfolio forecasting
-□ AI-powered trading assistant
-📦 Dependencies
-Core Libraries
-text
-Python 3.8+
-pandas>=1.3.0
-numpy>=1.21.0
-scikit-learn>=1.0.0
-matplotlib>=3.4.0
-seaborn>=0.11.0
-Financial APIs
-text
-yfinance>=0.1.70
-pandas-datareader>=0.10.0
-Web Framework
-text
-streamlit>=1.10.0
-plotly>=5.5.0
-ML Libraries
-text
-joblib>=1.1.0
-👥 Contributors
-Your Name - Initial Work
 
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+Some improvements I would like to explore:
 
-🙏 Acknowledgments
-Yahoo Finance for providing the data API
+Automatic model selection
 
-Scikit-learn community for ML tools
+Hyperparameter tuning
 
-Streamlit for the amazing web framework
+More advanced time-series models
 
-📧 Contact
-Your Name - saymap693@gmail.com
+Additional technical indicators
 
-Project Link: https://github.com/yourusername/automated-stock-price-forecasting
+More robust input validation
 
-⭐ Show Your Support
-If you found this project helpful, please give it a ⭐ on GitHub!
+Model persistence
 
-Built with ❤️ using Python, Pandas, Scikit-learn, and Streamlit
+Automated data fetching
 
+Better prediction uncertainty information
+
+Deployment of the Streamlit application
+
+⚠️ Disclaimer
+
+This project is for educational and machine-learning experimentation
+purposes.
+
+Stock prices are influenced by many factors that are not represented in
+this model. The predictions should not be considered financial advice or
+a guarantee of future performance.
+
+👩‍💻 Project Journey
+
+This project started with a simple question:
+
+Can I predict tomorrow's stock price using historical data?
+
+It eventually became a bigger question:
+
+Can I turn the entire ML workflow into something reusable that
+another person can actually use?
+
+That transition --- from a model to an automated system --- is the part
+of this project I found most valuable
